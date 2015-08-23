@@ -1,0 +1,20 @@
+//
+//  DragTest-Prefix.pch
+//  DragTest
+//
+//  Created by xu lingyi on 8/23/15.
+//  Copyright (c) 2015 xu01. All rights reserved.
+//
+
+#ifdef __OBJC__
+#import <Masonry/Masonry.h>
+
+#define WS(weakSelf)  __weak __typeof(&*self)weakSelf = self;
+
+#define kStatusBarHeight        20.0
+#define kNavigationBarHeight    44.0
+#define kWidth                  32.0
+#define kRows                   50
+#define kColumns                50
+
+#endif

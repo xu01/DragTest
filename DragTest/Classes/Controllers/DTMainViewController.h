@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DTMainViewController : UIViewController
+@interface DTMainViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+
+@property (nonatomic, strong) NSArray *smallTableFrames;
+@property (nonatomic, strong) NSArray *bigTableFrames;
 
 @end
