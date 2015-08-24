@@ -15,6 +15,8 @@
 		C77640251B89701700D1F842 /* DTLeftTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C77640241B89701700D1F842 /* DTLeftTableViewCell.m */; };
 		C776402A1B898C2D00D1F842 /* LeftTableData.plist in Resources */ = {isa = PBXBuildFile; fileRef = C77640291B898C2D00D1F842 /* LeftTableData.plist */; };
 		C776402E1B89C65C00D1F842 /* DTDragView.m in Sources */ = {isa = PBXBuildFile; fileRef = C776402D1B89C65C00D1F842 /* DTDragView.m */; };
+		CE6FE1421B8AA2E700111F41 /* DTBigDragView.m in Sources */ = {isa = PBXBuildFile; fileRef = CE6FE1411B8AA2E700111F41 /* DTBigDragView.m */; };
+		CE6FE1451B8AA2FD00111F41 /* DTSmallDragView.m in Sources */ = {isa = PBXBuildFile; fileRef = CE6FE1441B8AA2FD00111F41 /* DTSmallDragView.m */; };
 		F1BCC9F359DE7EC9FDD74FE0 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 143A466D7BA207CB3070D0C0 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -49,6 +51,10 @@
 		C776402B1B89A7D000D1F842 /* DragTest-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DragTest-Prefix.pch"; sourceTree = "<group>"; };
 		C776402C1B89C65C00D1F842 /* DTDragView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTDragView.h; sourceTree = "<group>"; };
 		C776402D1B89C65C00D1F842 /* DTDragView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTDragView.m; sourceTree = "<group>"; };
+		CE6FE1401B8AA2E700111F41 /* DTBigDragView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTBigDragView.h; sourceTree = "<group>"; };
+		CE6FE1411B8AA2E700111F41 /* DTBigDragView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTBigDragView.m; sourceTree = "<group>"; };
+		CE6FE1431B8AA2FD00111F41 /* DTSmallDragView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTSmallDragView.h; sourceTree = "<group>"; };
+		CE6FE1441B8AA2FD00111F41 /* DTSmallDragView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTSmallDragView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -160,6 +166,10 @@
 			children = (
 				C776402C1B89C65C00D1F842 /* DTDragView.h */,
 				C776402D1B89C65C00D1F842 /* DTDragView.m */,
+				CE6FE1401B8AA2E700111F41 /* DTBigDragView.h */,
+				CE6FE1411B8AA2E700111F41 /* DTBigDragView.m */,
+				CE6FE1431B8AA2FD00111F41 /* DTSmallDragView.h */,
+				CE6FE1441B8AA2FD00111F41 /* DTSmallDragView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -324,6 +334,8 @@
 				C77640251B89701700D1F842 /* DTLeftTableViewCell.m in Sources */,
 				C776402E1B89C65C00D1F842 /* DTDragView.m in Sources */,
 				C77640161B89684F00D1F842 /* AppDelegate.m in Sources */,
+				CE6FE1421B8AA2E700111F41 /* DTBigDragView.m in Sources */,
+				CE6FE1451B8AA2FD00111F41 /* DTSmallDragView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -433,8 +445,8 @@
 			baseConfigurationReference = 092E6A20529962B9D2123134 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: lingyi xu (JGTF3S2CQL)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: lingyi xu (JGTF3S2CQL)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "DragTest/Supporting Files/DragTest-Prefix.pch";
 				INFOPLIST_FILE = "DragTest/Supporting Files/Info.plist";
@@ -450,8 +462,8 @@
 			baseConfigurationReference = 3006AD2F761AB836C547D773 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: lingyi xu (JGTF3S2CQL)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: lingyi xu (JGTF3S2CQL)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "DragTest/Supporting Files/DragTest-Prefix.pch";
 				INFOPLIST_FILE = "DragTest/Supporting Files/Info.plist";

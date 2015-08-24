@@ -7,8 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DTLeftTableViewCell.h"
+#import "DTDragView.h"
+#import "DTBigDragView.h"
+#import "DTSmallDragView.h"
 
-@interface DTMainViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface DTMainViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, DTDragViewDelegate, DTLeftTableViewCellDelegate>
 
 @property (nonatomic, strong) NSArray *smallTableFrames;
 @property (nonatomic, strong) NSArray *bigTableFrames;

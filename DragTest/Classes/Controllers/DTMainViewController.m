@@ -7,14 +7,14 @@
 //
 
 #import "DTMainViewController.h"
-#import "DTLeftTableViewCell.h"
-#import "DTDragView.h"
 
 @interface DTMainViewController ()
 {
     UITableView     *_leftTableView;
     UIScrollView    *_rightScrollView;
     NSArray         *_leftData;
+    
+    int             _numMoving;
 }
 
 @end
@@ -24,6 +24,7 @@
 - (instancetype)init {
     if (self = [super init]) {
         _leftData = [[NSArray alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"LeftTableData" ofType:@"plist"]];
+        _numMoving = 0;
     }
     return self;
 }
@@ -40,6 +41,7 @@
     _leftTableView = [[UITableView alloc] init];
     _leftTableView.dataSource = self;
     _leftTableView.delegate = self;
+    _leftTableView.bounces = NO;
     _leftTableView.allowsSelection = NO;
     [self.view addSubview:_leftTableView];
     [_leftTableView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -50,6 +52,7 @@
     
     _rightScrollView = [[UIScrollView alloc] init];
     _rightScrollView.scrollEnabled = YES;
+    _rightScrollView.bounces = NO;
     [self.view addSubview:_rightScrollView];
     
     NSMutableArray *sFrames = [NSMutableArray arrayWithCapacity:kRows*kColumns];
@@ -68,7 +71,18 @@
             [_rightScrollView addSubview:helpView];
         }
     }
-    _rightScrollView.contentSize = CGSizeMake(kRows*kWidth, kColumns*kWidth);
+    _smallTableFrames = sFrames;
+    
+    for (int row=0; row<(kRows-1); row++) {
+        for (int col=0; col<(kColumns-1); col++) {
+            CGRect bFrame = CGRectMake(row*kWidth, col*kWidth, kWidth*2, kWidth*2);
+            
+            [bFrames addObject:CGRectValue(bFrame)];
+        }
+    }
+    _bigTableFrames = bFrames;
+    
+    _rightScrollView.contentSize = CGSizeMake(kRows*kWidth, kColumns*kWidth+kNavigationBarHeight+kStatusBarHeight);
     [_rightScrollView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(_leftTableView.mas_right);
         make.top.equalTo(ws.view).with.offset(kNavigationBarHeight+kStatusBarHeight);
@@ -76,7 +90,7 @@
     }];
 }
 
-#pragma mark - UITableViewDataSource
+#pragma mark - UITableViewDataSource Methods
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 100.0f;
@@ -95,9 +109,53 @@
     }
     cell.name.text = _leftData[indexPath.row][@"name"];
     cell.img.image = [UIImage imageNamed:_leftData[indexPath.row][@"image"]];
+    cell.delegate = self;
+    [cell addDragView];
     
     return cell;
 }
+
+- (void)buildDrageViewByImage:(UIImage *)image byCenter:(CGPoint)center {
+    if (_numMoving < 1) {
+        CGRect startFrame = CGRectMake(center.x, center.y, image.size.width, image.size.height);
+        
+        DTBigDragView *bigDragView = [[DTBigDragView alloc] initWithImage:image
+                                                            withSuperView:_rightScrollView
+                                                               startFrame:startFrame
+                                                              allowFrames:_bigTableFrames
+                                                              andDelegate:self];
+        
+        [self.view addSubview:bigDragView];
+        [self.view bringSubviewToFront:bigDragView];
+        _numMoving++;
+    }
+}
+
+/*
+- (void)buildDragViewByImage:(UIImage *)image byOrigin:(CGPoint)origin {
+    UIImage *dragImage = [image mutableCopy];
+    
+    CGRect startFrame = CGRectMake(origin.x, origin.y, dragImage.size.width, dragImage.size.height);
+    
+    
+    DTBigDragView *bigDragView = [[DTBigDragView alloc] initWithImage:image
+                                                           startFrame:startFrame
+                                                          allowFrames:_bigTableFrames
+                                                          andDelegate:self];
+    
+    [self.view addSubview:bigDragView];
+}
+*/
+
+- (void)dragViewDidStartDragging:(DTDragView *)dragView isSmall:(BOOL)isSmall {
+    
+}
+
+- (void)dragViewDidEndDragging:(DTDragView *)dragView {
+    if (_numMoving > 0)_numMoving--;
+}
+
+#pragma mark - Default Methods
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

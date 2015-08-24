@@ -24,6 +24,10 @@
         }];
         _img = [[UIImageView alloc] init];
         _img.contentMode =  UIViewContentModeCenter;
+        _img.userInteractionEnabled = YES;
+        //UILongPressGestureRecognizer *imgPan = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(imagePan:)];
+        //imgPan.delegate = self;
+        //[_img addGestureRecognizer:imgPan];
         [self addSubview:_img];
         [_img mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(_name.mas_right);
@@ -32,6 +36,24 @@
         }];
     }
     return self;
+}
+
+- (void)addDragView {
+    CGPoint pt = CGPointMake(self.frame.size.width*0.6+(self.frame.size.width*0.4-_img.image.size.width)/2, (self.frame.size.height-_img.image.size.height)/2+100);
+    NSLog(@"x:%f-y:%f", _img.mas_top.view.bounds.origin.x, _img.mas_top.view.bounds.origin.y+100);
+    
+    SEL buildDrageView = @selector(buildDrageViewByImage:byCenter:);
+    if(self.delegate && [(NSObject *)self.delegate respondsToSelector:buildDrageView]){
+        [self.delegate buildDrageViewByImage:_img.image byCenter:pt];
+    }
+}
+
+- (void)imagePan:(UILongPressGestureRecognizer *)gestureRecognizer {
+    CGPoint pt = [gestureRecognizer locationInView:self.superview];
+    
+    
+    
+    
 }
 
 @end

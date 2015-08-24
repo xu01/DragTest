@@ -7,7 +7,6 @@
 //
 
 #import "AppDelegate.h"
-#import "DTMainViewController.h"
 
 @interface AppDelegate ()
 
