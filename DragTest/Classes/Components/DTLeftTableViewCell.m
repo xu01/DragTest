@@ -10,7 +10,7 @@
 
 @implementation DTLeftTableViewCell
 
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier withViewController:(id)vc {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         WS(ws);
         _name = [[UILabel alloc] init];
@@ -34,25 +34,35 @@
             make.centerY.equalTo(ws);
             make.size.mas_equalTo(CGSizeMake(ws.frame.size.width*0.4, ws.frame.size.height));
         }];
+        _dragDelegate = vc;
     }
     return self;
 }
 
 - (void)addDragView {
-    CGPoint pt = CGPointMake(self.frame.size.width*0.6+(self.frame.size.width*0.4-_img.image.size.width)/2, (self.frame.size.height-_img.image.size.height)/2+100);
+    /*CGPoint pt = CGPointMake(self.frame.size.width*0.6+(self.frame.size.width*0.4-_img.image.size.width)/2, (self.frame.size.height-_img.image.size.height)/2+100-10);
     NSLog(@"x:%f-y:%f", _img.mas_top.view.bounds.origin.x, _img.mas_top.view.bounds.origin.y+100);
     
     SEL buildDrageView = @selector(buildDrageViewByImage:byCenter:);
     if(self.delegate && [(NSObject *)self.delegate respondsToSelector:buildDrageView]){
         [self.delegate buildDrageViewByImage:_img.image byCenter:pt];
-    }
+    }*/
+    CGRect startFrame = CGRectMake(self.frame.size.width*0.6+(self.frame.size.width*0.4-_img.image.size.width)/2, (self.frame.size.height-_img.image.size.height)/2+50, _img.image.size.width, _img.image.size.height);
+    
+    DTBigDragView *bigDragView = [[DTBigDragView alloc] initWithImage:_img.image
+                                                        withSuperView:_dragSuperView
+                                                           startFrame:startFrame
+                                                          allowFrames:_dragAllowFrames
+                                                          andDelegate:_dragDelegate];
+    [self addSubview:bigDragView];
+    /*SEL buildDrageView = @selector(buildDrageView:);
+    if(self.delegate && [(NSObject *)self.delegate respondsToSelector:buildDrageView]){
+        [self.delegate buildDrageView:bigDragView];
+    }*/
 }
 
 - (void)imagePan:(UILongPressGestureRecognizer *)gestureRecognizer {
     CGPoint pt = [gestureRecognizer locationInView:self.superview];
-    
-    
-    
     
 }
 

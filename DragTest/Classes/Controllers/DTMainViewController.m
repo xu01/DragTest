@@ -41,7 +41,7 @@
     _leftTableView = [[UITableView alloc] init];
     _leftTableView.dataSource = self;
     _leftTableView.delegate = self;
-    _leftTableView.bounces = NO;
+    _leftTableView.bounces = YES;
     _leftTableView.allowsSelection = NO;
     [self.view addSubview:_leftTableView];
     [_leftTableView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -105,26 +105,21 @@
     DTLeftTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     if(!cell){
-        cell = [[DTLeftTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell = [[DTLeftTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier withViewController:self];
     }
     cell.name.text = _leftData[indexPath.row][@"name"];
     cell.img.image = [UIImage imageNamed:_leftData[indexPath.row][@"image"]];
+    cell.imgType = indexPath.row+1000;
     cell.delegate = self;
+    cell.dragAllowFrames = _bigTableFrames;
+    cell.dragSuperView = _rightScrollView;
     [cell addDragView];
     
     return cell;
 }
 
-- (void)buildDrageViewByImage:(UIImage *)image byCenter:(CGPoint)center {
+- (void)buildDrageView:(DTBigDragView *)bigDragView {
     if (_numMoving < 1) {
-        CGRect startFrame = CGRectMake(center.x, center.y, image.size.width, image.size.height);
-        
-        DTBigDragView *bigDragView = [[DTBigDragView alloc] initWithImage:image
-                                                            withSuperView:_rightScrollView
-                                                               startFrame:startFrame
-                                                              allowFrames:_bigTableFrames
-                                                              andDelegate:self];
-        
         [self.view addSubview:bigDragView];
         [self.view bringSubviewToFront:bigDragView];
         _numMoving++;
@@ -148,7 +143,9 @@
 */
 
 - (void)dragViewDidStartDragging:(DTDragView *)dragView isSmall:(BOOL)isSmall {
-    
+    //if (![dragView.superview isKindOfClass:[self.view class]]) {
+        //[self.view addSubview:dragView];
+    //}
 }
 
 - (void)dragViewDidEndDragging:(DTDragView *)dragView {

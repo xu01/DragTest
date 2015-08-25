@@ -17,9 +17,15 @@
 
 @property (strong, nonatomic) UILabel       *name;
 @property (strong, nonatomic) UIImageView   *img;
+@property (assign, nonatomic) int           imgType;
 
 @property (assign, nonatomic) id<DTLeftTableViewCellDelegate>   delegate;
 
+@property (assign, nonatomic) id dragDelegate;
+@property (strong, nonatomic) UIView *dragSuperView;
+@property (strong, nonatomic) NSArray *dragAllowFrames;
+
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier withViewController:(id)vc;
 - (void)addDragView;
 
 @end
@@ -27,6 +33,6 @@
 @protocol DTLeftTableViewCellDelegate <NSObject>
 
 @optional
-- (void)buildDrageViewByImage:(UIImage *)image byCenter:(CGPoint)center;
+- (void)buildDrageView:(DTBigDragView *)bigDragView;
 
 @end

@@ -103,6 +103,9 @@ CGRect CGRectFromValue(NSValue *value){
     
     if (!isDragging_) {
         
+        self.layer.borderColor = [[UIColor redColor] CGColor];
+        self.layer.borderWidth = 1.0;
+        
         isDragging_ = YES;
         
         CGPoint pt = [gestureRecognizer locationInView:self.superview];
@@ -135,10 +138,21 @@ CGRect CGRectFromValue(NSValue *value){
         }
     }
     
-    // 超出边界
-    CGPoint selfOrigin = [self convertPoint:self.frame.origin toView:[[self superview] superview]];
-    if (selfOrigin.x < self.superview.frame.origin.x || selfOrigin.y < self.superview.frame.origin.y)
-        return;
+    // 四种超出边界
+    CGPoint selfOrigin = [self convertPoint:self.frame.origin toView:[self superview]];
+    NSLog(@"x:%f - y:%f", selfOrigin.x, selfOrigin.y);
+    if (selfOrigin.x < 0) {
+        self.frame = CGRectMake(0.0, self.frame.origin.y, self.frame.size.width, self.frame.size.height);
+    }
+    if (selfOrigin.y < 0) {
+        self.frame = CGRectMake(self.frame.origin.x, 0.0, self.frame.size.width, self.frame.size.height);
+    }
+    if (selfOrigin.x+self.frame.size.width > kWidth*(kColumns-1)*2) {
+        self.frame = CGRectMake(kWidth*kColumns-self.frame.size.width, self.frame.origin.y, self.frame.size.width, self.frame.size.height);
+    }
+    if (selfOrigin.y+self.frame.size.width > kWidth*(kColumns-1)*2) {
+        self.frame = CGRectMake(self.frame.origin.x, kWidth*kColumns-self.frame.size.height, self.frame.size.width, self.frame.size.height);
+    }
     
     CGPoint pt = [gestureRecognizer locationInView:self];
     CGPoint translation = [gestureRecognizer translationInView:[self superview]];
@@ -263,7 +277,25 @@ CGRect CGRectFromValue(NSValue *value){
     if (!isDragging_)
         return;
     
+    self.layer.borderWidth = 0.0;
+    
     isDragging_ = NO;
+    
+    // 四种超出边界
+    CGPoint selfOrigin = [self convertPoint:self.frame.origin toView:[self superview]];
+    NSLog(@"x:%f - y:%f", selfOrigin.x, selfOrigin.y);
+    if (selfOrigin.x < 0) {
+        self.frame = CGRectMake(0.0, self.frame.origin.y, self.frame.size.width, self.frame.size.height);
+    }
+    if (selfOrigin.y < 0) {
+        self.frame = CGRectMake(self.frame.origin.x, 0.0, self.frame.size.width, self.frame.size.height);
+    }
+    if (selfOrigin.x+self.frame.size.width > kWidth*(kColumns-1)*2) {
+        self.frame = CGRectMake(kWidth*kColumns-self.frame.size.width, self.frame.origin.y, self.frame.size.width, self.frame.size.height);
+    }
+    if (selfOrigin.y+self.frame.size.width > kWidth*(kColumns-1)*2) {
+        self.frame = CGRectMake(self.frame.origin.x, kWidth*kColumns-self.frame.size.height, self.frame.size.width, self.frame.size.height);
+    }
     
     if(!canDragMultipleDragViewsAtOnce_)
         //[[TKDragManager manager] dragViewDidEndDragging:self];

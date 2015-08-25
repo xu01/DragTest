@@ -4,12 +4,6 @@
 <array>
 	<dict>
 		<key>name</key>
-		<string>小方桌</string>
-		<key>image</key>
-		<string>smallTable.png</string>
-	</dict>
-	<dict>
-		<key>name</key>
 		<string>大方桌</string>
 		<key>image</key>
 		<string>bigTable.png</string>
