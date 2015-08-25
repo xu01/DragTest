@@ -47,7 +47,7 @@
     if(self.delegate && [(NSObject *)self.delegate respondsToSelector:buildDrageView]){
         [self.delegate buildDrageViewByImage:_img.image byCenter:pt];
     }*/
-    CGRect startFrame = CGRectMake(self.frame.size.width*0.6+(self.frame.size.width*0.4-_img.image.size.width)/2, (self.frame.size.height-_img.image.size.height)/2+50, _img.image.size.width, _img.image.size.height);
+    CGRect startFrame = CGRectMake(self.frame.size.width*0.6+(self.frame.size.width*0.4-_img.image.size.width)/2, (self.frame.size.height-_img.image.size.height)/2+28, _img.image.size.width, _img.image.size.height);
     
     DTBigDragView *bigDragView = [[DTBigDragView alloc] initWithImage:_img.image
                                                         withSuperView:_dragSuperView
