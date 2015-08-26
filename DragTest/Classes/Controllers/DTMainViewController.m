@@ -12,6 +12,7 @@
 {
     UITableView     *_leftTableView;
     UIScrollView    *_rightScrollView;
+    UIView          *_rightView;
     NSArray         *_leftData;
     
     int             _numMoving;
@@ -54,6 +55,19 @@
     _rightScrollView.scrollEnabled = YES;
     _rightScrollView.bounces = NO;
     [self.view addSubview:_rightScrollView];
+    _rightScrollView.contentSize = CGSizeMake(kRows*kWidth, kColumns*kWidth+kNavigationBarHeight+kStatusBarHeight);
+    [_rightScrollView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_leftTableView.mas_right);
+        make.top.equalTo(ws.view).with.offset(kNavigationBarHeight+kStatusBarHeight);
+        make.size.mas_equalTo(CGSizeMake(ws.view.frame.size.width*0.7, ws.view.frame.size.height));
+    }];
+    
+    _rightView = [[UIView alloc] init];
+    [_rightScrollView addSubview:_rightView];
+    [_rightView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_rightScrollView);
+        make.size.mas_equalTo(CGSizeMake(kRows*kWidth, kColumns*kWidth+kNavigationBarHeight+kStatusBarHeight));
+    }];
     
     NSMutableArray *sFrames = [NSMutableArray arrayWithCapacity:kRows*kColumns];
     NSMutableArray *bFrames = [NSMutableArray arrayWithCapacity:(kRows-1)*(kColumns-1)];
@@ -68,7 +82,7 @@
             helpView.layer.borderColor = [UIColor grayColor].CGColor;
             helpView.layer.borderWidth = 1.0f;
             
-            [_rightScrollView addSubview:helpView];
+            [_rightView addSubview:helpView];
         }
     }
     _smallTableFrames = sFrames;
@@ -82,12 +96,12 @@
     }
     _bigTableFrames = bFrames;
     
-    _rightScrollView.contentSize = CGSizeMake(kRows*kWidth, kColumns*kWidth+kNavigationBarHeight+kStatusBarHeight);
-    [_rightScrollView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(_leftTableView.mas_right);
-        make.top.equalTo(ws.view).with.offset(kNavigationBarHeight+kStatusBarHeight);
-        make.size.mas_equalTo(CGSizeMake(ws.view.frame.size.width*0.7, ws.view.frame.size.height));
-    }];
+    _rightScrollView.delegate = self;
+    _rightScrollView.minimumZoomScale = 0.5;
+    _rightScrollView.maximumZoomScale = 2.0;
+    
+    //[_rightScrollView setZoomScale:0.5 animated:YES];
+    
 }
 
 #pragma mark - UITableViewDataSource Methods
@@ -142,6 +156,10 @@
 }
 */
 
+- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
+    return _rightView;
+}
+
 - (void)dragViewDidStartDragging:(DTDragView *)dragView isSmall:(BOOL)isSmall {
     //if (![dragView.superview isKindOfClass:[self.view class]]) {
         //[self.view addSubview:dragView];
@@ -150,6 +168,7 @@
 
 - (void)dragViewDidEndDragging:(DTDragView *)dragView {
     if (_numMoving > 0)_numMoving--;
+    [_rightView addSubview:dragView];
 }
 
 #pragma mark - Default Methods
